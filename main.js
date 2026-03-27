@@ -5,79 +5,113 @@ const yesBtn = document.querySelector(".yes-btn");
 const noBtn = document.querySelector(".no-btn");
 const btnGrp = document.querySelector(".btn-group");
 
-yesBtn.addEventListener("click", () => {
+// 🎵 Music setup
+const music = document.getElementById("bg-music");
+let isMusicPlaying = false;
+
+// 👉 Helper function to start music once
+function playMusic() {
+  if (!isMusicPlaying) {
+    music.volume = 0;
+    music.play();
+
+    // 🔥 smooth fade-in
+    let vol = 0;
+    const fade = setInterval(() => {
+      if (vol < 0.3) {
+        vol += 0.02;
+        music.volume = vol;
+      } else {
+        clearInterval(fade);
+      }
+    }, 200);
+
+    isMusicPlaying = true;
+  }
+}
+
+// 👉 STEP 1
+yesBtn.onclick = () => {
+  playMusic();
+
   question.innerHTML = "I'm SORRY";
   gif.src = "images/sorry.png";
-  gif.style.height = "300px"; 
-  gif.style.width = "400px"; 
+  gif.style.height = "300px";
+  gif.style.width = "400px";
 
-  noBtn.innerHTML = "No";
   yesBtn.innerHTML = "Okay fine";
+  noBtn.innerHTML = "No";
 
-  yesBtn.addEventListener("click", () => {
-    question.innerHTML = "Hehehe!! I knew it";
+  // 👉 STEP 2 (YES)
+  yesBtn.onclick = () => {
+    question.innerHTML = "Hehehe!! I knew it 😘";
     gif.src = "images/love.gif";
     yesBtn.style.display = "none";
     noBtn.style.display = "none";
-  });
+  };
 
-  noBtn.addEventListener("click", () => {
+  // 👉 STEP 2 (NO)
+  noBtn.onclick = () => {
     question.innerHTML = "Think about it properly!";
     gif.src = "images/download.gif";
+
     yesBtn.innerHTML = "Okay fine";
     noBtn.innerHTML = "I don’t want to think";
 
-    yesBtn.addEventListener("click", () => {
-      question.innerHTML = "Hehehe, I knew it!";
+    // 👉 STEP 3 (YES)
+    yesBtn.onclick = () => {
+      question.innerHTML = "Hehehe, I knew it! 😍";
       gif.src = "images/love.gif";
       yesBtn.style.display = "none";
       noBtn.style.display = "none";
-    });
+    };
 
-    noBtn.addEventListener("click", () => {
+    // 👉 STEP 3 (NO)
+    noBtn.onclick = () => {
       question.innerHTML = "Just think one more time";
       gif.src = "images/sadlife.gif";
+
       yesBtn.innerHTML = "Okay, I agree";
       noBtn.innerHTML = "Final no";
 
-      yesBtn.addEventListener("click", () => {
-        question.innerHTML = "Hehehe, I knew it!";
+      // 👉 STEP 4 (YES)
+      yesBtn.onclick = () => {
+        question.innerHTML = "Hehehe, I knew it! ❤️";
         gif.src = "images/love.gif";
         yesBtn.style.display = "none";
         noBtn.style.display = "none";
-      });
+      };
 
-      noBtn.addEventListener("click", () => {
+      // 👉 STEP 4 (NO)
+      noBtn.onclick = () => {
         question.innerHTML = "Come on, don’t be so stubborn!";
         gif.src = "images/run.gif";
+
         yesBtn.innerHTML = "No";
         noBtn.innerHTML = "Yes";
 
-        noBtn.addEventListener("click", () => {
-          question.innerHTML = "Hehehe, I knew it!";
+        // FINAL YES (swapped)
+        noBtn.onclick = () => {
+          question.innerHTML = "Hehehe, I knew it! 💖";
           gif.src = "images/love.gif";
           yesBtn.style.display = "none";
           noBtn.style.display = "none";
-        });
+        };
 
-        // Hover effect for the "yes" button
-        yesBtn.addEventListener("mouseover", () => {
-          const yesBtnRect = yesBtn.getBoundingClientRect();
-          const screenWidth = window.innerWidth;
-          const screenHeight = window.innerHeight;
-          const margin = 50;
+        // 😂 RUNAWAY BUTTON EFFECT
+        yesBtn.onmouseover = () => {
+          const rect = yesBtn.getBoundingClientRect();
+          const maxX = window.innerWidth - rect.width - 50;
+          const maxY = window.innerHeight - rect.height - 50;
 
-          const maxX = screenWidth - yesBtnRect.width - margin * 2;
-          const maxY = screenHeight - yesBtnRect.height - margin * 2;
+          const randomX = Math.random() * maxX;
+          const randomY = Math.random() * maxY;
 
-          const randomX = Math.max(margin, Math.floor(Math.random() * maxX)) + margin;
-          const randomY = Math.max(margin, Math.floor(Math.random() * maxY)) + margin;
-
+          yesBtn.style.position = "absolute";
           yesBtn.style.left = randomX + "px";
           yesBtn.style.top = randomY + "px";
-        });
-
-      });
-    });
-  });
-});
+        };
+      };
+    };
+  };
+};
